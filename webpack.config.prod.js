@@ -1,4 +1,5 @@
-//
+var webpack = require('webpack');
+
 var autoprefixer = require('autoprefixer');
 module.exports = {
     entry: "./src/index.tsx",
@@ -23,5 +24,14 @@ module.exports = {
             { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" }
         ]
     },
+
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify('production')
+            }
+        }),
+        new webpack.optimize.UglifyJsPlugin()
+    ],
     postcss: () => [autoprefixer]
 };
