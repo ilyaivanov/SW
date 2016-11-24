@@ -1,6 +1,5 @@
 //
 var autoprefixer = require('autoprefixer');
-
 module.exports = {
     entry: "./src/index.tsx",
     output: {
