@@ -6,8 +6,9 @@
   "scripts": {
     "test": "jest --watch",
     "sync": "browser-sync start --server --files \"dist/*\" \"index.html\"",
-    "webpack": "webpack -w",
-    "start": "npm-run-all --parallel sync webpack"
+    "webpack": "webpack -w --config ./webpack.config.dev.js",
+    "start": "npm-run-all --parallel sync webpack",
+    "build": "webpack -p --config ./webpack.config.prod.js"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -16,7 +17,7 @@
       "js"
     ],
     "transform": {
-      "^.+\\.(ts|tsx)$": "<rootDir>/preprocessor.js"
+      "^.+\\.(ts|tsx)$": "<rootDir>/config/preprocessor.js"
     },
     "testRegex": ".*\\.spec.(ts|tsx|js)$"
   },
