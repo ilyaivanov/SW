@@ -1,19 +1,24 @@
-interface Report {
+export enum SortingIndicator{
+    Asc,
+    Desc,
+    None
+}
+export interface Report {
     groups: Group[]
     columns: ColumnInfo[]
 }
-interface Group {
+export interface Group {
     name: string
 
     footer: number[]
     answers: Answers[]
 }
-interface Answers{
+export interface Answers{
     initialOrder:number
     values: (string | number)[]
 }
 
-interface ColumnInfo {
+export interface ColumnInfo {
     name: string
-    sorted: 'asc' | 'desc' | null
+    sorted: SortingIndicator
 }
