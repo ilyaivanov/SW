@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Group, Report, SortingIndicator } from '../../types/report';
 
 function group(group: Group) {
     return [
@@ -15,30 +16,33 @@ function group(group: Group) {
                 </tr>
             )),
             (<tr>
+
                 <td><b>Footer</b></td>
                 {group.footer.map((v, si) => <td key={si}><b>{v}</b></td>)}
             </tr>)
             ]
-
         )
     ];
 }
+//TODO: extract 'Footer' as param
 
-const sortingIndicator = (sorter: 'asc' | 'desc' | null) =>
-    sorter == 'asc' ? <span className="glyphicon glyphicon-chevron-up"></span> :
-        sorter == 'desc' ? <span className="glyphicon glyphicon-chevron-down"></span> :
+const sortingIndicator = (sorter: SortingIndicator) =>
+    sorter == SortingIndicator.Asc ? <span className="glyphicon glyphicon-chevron-up"></span> :
+        sorter == SortingIndicator.Desc ? <span className="glyphicon glyphicon-chevron-down"></span> :
             null;
 
-function header(report: Report, sorter: Sorter) {
-    const width = (100 / report.columns.length)+'%';
+function header(report: Report, sorter: SortingCallback) {
+    const width = (100 / report.columns.length) + '%';
     return (<tr>
-        {report.columns.map((c, i) => <th style={{width}} key={i} onClick={() => sorter(i)}>{c.name}{sortingIndicator(c.sorted)}</th>)}
+        {report.columns.map((c, i) => <th style={{ width }}
+            key={i}
+            onClick={() => sorter(i)}>{c.name}{sortingIndicator(c.sorted)}</th>)}
     </tr>);
 }
 
-type Sorter = (index: number) => void;
+type SortingCallback = (index: number) => void;
 
-export default (props: { report: Report, onSort: Sorter }) => (
+export default (props: { report: Report, onSort: SortingCallback }) => (
     <table className="table">
         <thead>
             {header(props.report, props.onSort)}
