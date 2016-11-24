@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as _ from 'lodash';
 
 import RichTable from './RichTable/RichTable';
-import createReport, { sort } from './model/report';
+import createReport, { sort, toggleCollapsed } from './model/report';
 
 import { Report } from '../types/report';
 
@@ -16,9 +16,17 @@ export default class App extends React.Component<{}, { report: Report }>{
   }
 
   sort = (columnIndex: number) => {
-    this.setState({ report: sort(this.state.report, columnIndex)});
+    this.setState({ report: sort(this.state.report, columnIndex) });
   }
+  toggle = (group) => {
+    toggleCollapsed(group);
+    this.forceUpdate();
+  }
+
   render() {
-    return <RichTable report={this.state.report} onSort={this.sort} />
+    return <RichTable
+      report={this.state.report}
+      onSort={this.sort}
+      onGroupCollapse={this.toggle} />
   }
 }

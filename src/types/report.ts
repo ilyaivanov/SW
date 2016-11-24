@@ -9,6 +9,7 @@ export interface Report {
 }
 export interface Group {
     name: string
+    isCollapsed:boolean
 
     footer: number[]
     answers: Answers[]

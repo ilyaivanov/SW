@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import {SortingIndicator, Report, Answers} from '../../types/report'; 
+import {SortingIndicator, Report, Group, Answers} from '../../types/report'; 
 
 const row = (name: string, count: number, initialOrder: number) => ({
     initialOrder,
@@ -8,7 +8,7 @@ const row = (name: string, count: number, initialOrder: number) => ({
 
 const createGroup = (name, columns: number) => ({
     name,
-
+    isCollapsed: false,
     answers: [
         row('Some freak', columns, 0),
         row('Ex', columns, 1),
@@ -55,5 +55,8 @@ export function sort(report: Report, columnIndex: number) {
             g.answers = _.reverse(g.answers);
     });
     return report;
+}
 
+export function toggleCollapsed(group: Group){
+    group.isCollapsed = !group.isCollapsed;
 }
