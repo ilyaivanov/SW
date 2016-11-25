@@ -12,10 +12,10 @@ const createGroup = (name) => {
         ])
     else
         return calculateTotals(name, [
-            answer(1, ['Married', 1700, 130]),
-            answer(2, ['Single', 560, 160]),
-            answer(3, ['Other', 550, 180]),
-            answer(4, ['Partened', 530, 140]),
+            answer(1, ['Married', 2700, 330]),
+            answer(2, ['Single', 2460, 470]),
+            answer(3, ['Other', 1550, 1180]),
+            answer(4, ['Partened', 730, 340]),
         ]);
 }
 

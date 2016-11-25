@@ -18,7 +18,7 @@ export default class App extends React.Component<{}, { report: Report }>{
   sort = (columnIndex: number) => {
     this.setState({ report: sort(this.state.report, columnIndex) });
   }
-  
+
   toggle = (group) => {
     this.setState({ report: toggleCollapsed(this.state.report, group) });
   }
@@ -28,10 +28,15 @@ export default class App extends React.Component<{}, { report: Report }>{
   }
 
   render() {
-    return <RichTable
-      report={this.state.report}
-      onSort={this.sort}
-      onGroupCollapse={this.toggle} 
-      removeGroup={this.remove} />
+    return (
+      <div>
+        <h2>Summary</h2>
+        <RichTable
+          report={this.state.report}
+          onSort={this.sort}
+          onGroupCollapse={this.toggle}
+          removeGroup={this.remove} />
+      </div>
+    )
   }
 }
