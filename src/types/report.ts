@@ -1,4 +1,4 @@
-export enum SortingIndicator{
+export enum SortingIndicator {
     Asc,
     Desc,
     None
@@ -9,13 +9,13 @@ export interface Report {
 }
 export interface Group {
     name: string
-    isCollapsed:boolean
+    isCollapsed: boolean
 
     footer: number[]
     answers: Answers[]
 }
-export interface Answers{
-    initialOrder:number
+export interface Answers {
+    initialOrder: number
     values: (string | number)[]
 }
 

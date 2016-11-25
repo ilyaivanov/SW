@@ -1,36 +1,58 @@
 import * as _ from 'lodash';
-import {SortingIndicator, Report, Group, Answers} from '../../types/report'; 
+import { SortingIndicator, Report, Group, Answers } from '../../types/report';
 
-const row = (name: string, count: number, initialOrder: number) => ({
-    initialOrder,
-    values: _.flatten<string | number>([name, _.map(Array(count), () => Math.floor(Math.random() * 100))])
-});
+const answer = (initialOrder, values) => ({ initialOrder, values });
 
-const createGroup = (name, columns: number) => ({
-    name,
-    isCollapsed: false,
-    answers: [
-        row('Some freak', columns, 0),
-        row('Ex', columns, 1),
-        row('Married', columns, 2),
-        row('Single', columns, 3),
-    ],
-    footer: [8, 100, 180]
-})
+const createGroup = (name) => {
+    let answers: Answers[];
+    if (name == 'Gender')
+        return calculateTotals(name, [
+            answer(1, ['Male', 1700, 130]),
+            answer(2, ['Female', 560, 160]),
+        ])
+    else
+        return calculateTotals(name, [
+            answer(1, ['Married', 1700, 130]),
+            answer(2, ['Single', 560, 160]),
+            answer(3, ['Other', 550, 180]),
+            answer(4, ['Partened', 530, 140]),
+        ]);
+}
 
 const column = name => ({ name, sorted: SortingIndicator.None })
-
-
 
 export default function createReport(): Report {
     return {
         columns: [column('Name'), column('Acura'), column('BMW'), column('Total')],
         groups: [
-            createGroup('Gender', 3),
-            createGroup('Marital Status', 3)
+            createGroup('Gender'),
+            createGroup('Marital Status')
         ]
     };
 }
+
+function getAnswersWithTotal(answers: Answers[]) {
+    answers.forEach(answer => {
+        answer.values.push(_.sum(answer.values.filter(v => typeof v == 'number')))
+    });
+    return answers;
+}
+function footer(answers: Answers[]): number[] {
+    const footer = [];
+    const add = (arrays) => _.zipWith(...arrays, (...numbers) => _.sum(numbers)) as number[];
+    const numbers = answers.map(a => a.values.filter(v => typeof v == 'number'));
+    return add(numbers);
+}
+
+export function calculateTotals(name, answers: Answers[]): Group {
+    return {
+        name,
+        isCollapsed: false,
+        answers: getAnswersWithTotal(answers),
+        footer: footer(answers)
+    };
+}
+
 
 export function sort(report: Report, columnIndex: number) {
     let currentColumn = report.columns[columnIndex];
@@ -57,13 +79,13 @@ export function sort(report: Report, columnIndex: number) {
     return report;
 }
 
-export function toggleCollapsed(report: Report, group: Group){
+export function toggleCollapsed(report: Report, group: Group) {
     group.isCollapsed = !group.isCollapsed;
     return report;
 }
 
 
-export function removeGroup(report:Report, group: Group){
+export function removeGroup(report: Report, group: Group) {
     report.groups = report.groups.filter(g => g != group);
     return report;
 }
