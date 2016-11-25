@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-import { Group, Report, SortingIndicator } from '../../types/report';
+import { Group, Report, Sorting } from '../../types/report';
 import createGroup from './Group';
 
-const sortingIndicator = (sorter: SortingIndicator) =>
-    sorter == SortingIndicator.Asc ? <span className="glyphicon glyphicon-chevron-up"></span> :
-        sorter == SortingIndicator.Desc ? <span className="glyphicon glyphicon-chevron-down"></span> :
+const sortingIndicator = (sorter: Sorting) =>
+    sorter == Sorting.Asc ? <span className="glyphicon glyphicon-chevron-up"></span> :
+        sorter == Sorting.Desc ? <span className="glyphicon glyphicon-chevron-down"></span> :
             null;
 
 function header(report: Report, sorter: SortingCallback) {

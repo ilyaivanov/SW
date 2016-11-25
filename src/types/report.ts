@@ -1,4 +1,4 @@
-export enum SortingIndicator {
+export enum Sorting {
     Asc,
     Desc,
     None
@@ -21,5 +21,5 @@ export interface Answers {
 
 export interface ColumnInfo {
     name: string
-    sorted: SortingIndicator
+    sorted: Sorting
 }

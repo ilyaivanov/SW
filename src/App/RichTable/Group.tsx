@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as cx from 'classnames';
 
-import { Group, Report, SortingIndicator } from '../../types/report';
+import { Group, Report, Sorting } from '../../types/report';
 
 const collapsed = (isCollapsed, onGroupCollapse) => isCollapsed ?
     <span onClick={onGroupCollapse} className="glyphicon glyphicon-plus"></span> :

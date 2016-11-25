@@ -1,12 +1,10 @@
 import * as React from 'react';
-import * as _ from 'lodash';
-
 import RichTable from './RichTable/RichTable';
 import createReport, { sort, toggleCollapsed, removeGroup } from './model/report';
 
 import { Report } from '../types/report';
 
-import './style.scss';
+import './App.scss';
 
 
 export default class App extends React.Component<{}, { report: Report }>{

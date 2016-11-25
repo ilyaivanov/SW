@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { SortingIndicator, Report, Group, Answers } from '../../types/report';
+import { Sorting, Report, Group, Answers } from '../../types/report';
 
 const answer = (initialOrder, values) => ({ initialOrder, values });
 
@@ -19,7 +19,7 @@ const createGroup = (name) => {
         ]);
 }
 
-const column = name => ({ name, sorted: SortingIndicator.None })
+const column = name => ({ name, sorted: Sorting.None })
 
 export default function createReport(): Report {
     return {
@@ -56,24 +56,23 @@ export function calculateTotals(name, answers: Answers[]): Group {
 
 export function sort(report: Report, columnIndex: number) {
     let currentColumn = report.columns[columnIndex];
+    let currentSortingOrder = currentColumn.sorted;
 
-    if (currentColumn.sorted == SortingIndicator.Asc) {
-        report.columns.forEach(c => c.sorted = SortingIndicator.None);
-        currentColumn.sorted = SortingIndicator.Desc;
-    } else if (currentColumn.sorted == SortingIndicator.Desc) {
-        report.columns.forEach(c => c.sorted = SortingIndicator.None);
-    } else {
-        report.columns.forEach(c => c.sorted = SortingIndicator.None);
-        currentColumn.sorted = SortingIndicator.Asc;
+    report.columns.forEach(c => c.sorted = Sorting.None);
+
+    if (currentSortingOrder == Sorting.Asc) {
+        currentColumn.sorted = Sorting.Desc;
+    } else if (currentSortingOrder == Sorting.None) {
+         currentColumn.sorted = Sorting.Asc;
     }
 
     report.groups.forEach(g => {
-        if (currentColumn.sorted == SortingIndicator.None)
+        if (currentColumn.sorted == Sorting.None)
             g.answers = _.orderBy(g.answers, (x: Answers) => x.initialOrder);
         else
             g.answers = _.orderBy(g.answers, (x: Answers) => x.values[columnIndex]);
 
-        if (currentColumn.sorted === SortingIndicator.Desc)
+        if (currentColumn.sorted == Sorting.Desc)
             g.answers = _.reverse(g.answers);
     });
     return report;
