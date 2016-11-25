@@ -23,3 +23,9 @@ export interface ColumnInfo {
     name: string
     sorted: Sorting
 }
+
+
+//models to create:
+// report creating spec (simple pojo with initial values)
+// report itself (pojo, with totals, percents, etc)
+// report view model (with react elements and callbacks set)

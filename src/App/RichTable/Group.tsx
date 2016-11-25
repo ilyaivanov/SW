@@ -29,24 +29,27 @@ const labels = group => group.footer.map(() => <td>{splitedCell('wgt', 'cnt', fa
 export default function createGroup(group: Group, onGroupCollapse, removeGroup) {
     const style = group.isCollapsed ? { display: 'none' } : {};
     return [
-        (<tr className="group-title">
-            <td>{collapsed(group.isCollapsed, () => onGroupCollapse(group))}
-                {group.name}
-                <span onClick={() => removeGroup(group)} className="glyphicon glyphicon-remove"></span>
-            </td>
-            {labels(group)}
-        </tr>),
+        (
+            <tr className="group-title">
+                <td>{collapsed(group.isCollapsed, () => onGroupCollapse(group))}
+                    {group.name}
+                    <span onClick={() => removeGroup(group)} className="glyphicon glyphicon-remove"></span>
+                </td>
+                {labels(group)}
+            </tr>
+        ),
         (
             [group.answers.map((a, i) => (
                 <tr key={i} className="subgroup" style={style}>
                     {a.values.map(cell)}
                 </tr>
             )),
-            (<tr style={style}>
-                <td><b>Footer</b></td>
-                {group.footer.map(cell)}
-            </tr>)
-            ]
+            (
+                <tr style={style}>
+                    <td><b>Footer</b></td>
+                    {group.footer.map(cell)}
+                </tr>
+            )]
         )
     ];
 }
