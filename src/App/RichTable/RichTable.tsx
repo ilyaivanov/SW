@@ -1,11 +1,28 @@
 import * as React from 'react';
+import * as cx from 'classnames';
+
 import { Group, Report, SortingIndicator } from '../../types/report';
 
 const collapsed = (isCollapsed, onGroupCollapse) => isCollapsed ?
     <span onClick={onGroupCollapse} className="glyphicon glyphicon-plus"></span> :
     <span onClick={onGroupCollapse} className="glyphicon glyphicon-minus"></span>;
 
+const splitedCell = (leftValue, rightValue, bordered) => (
+    <div className="wrapper">
+        <span className={cx('firstCell', { borderedCell: bordered })}>{leftValue}</span>
+        <span className="secondCell">{rightValue}</span>
+    </div>
+);
 
+const cell = (cellInfo: string | number, index: number) => {
+    const formatNumber = (cell: number) => splitedCell((cell % 2 == 0 ? cell + '' : '13,659'), '69%', true);
+    const cell: React.ReactElement<{}> = (typeof cellInfo == 'string') ? <div>{cellInfo}</div> : formatNumber(cellInfo);
+    return (
+        <td key={index}>
+            {cell}
+        </td>
+    );
+}
 
 function group(group: Group, onGroupCollapse, removeGroup) {
 
@@ -16,19 +33,19 @@ function group(group: Group, onGroupCollapse, removeGroup) {
                 {group.name}
                 <span onClick={() => removeGroup(group)} className="glyphicon glyphicon-remove"></span>
             </td>
-            <td><small>wgt</small></td>
-            <td><small>wgt</small></td>
-            <td><small>wgt</small></td>
+            <td>{splitedCell('wgt', 'cnt', false)}</td>
+            <td>{splitedCell('wgt', 'cnt', false)}</td>
+            <td>{splitedCell('wgt', 'cnt', false)}</td>
         </tr>),
         (
             [group.answers.map((a, i) => (
                 <tr key={i} className="subgroup" style={style}>
-                    {a.values.map((v, si) => <td key={si}>{v}</td>)}
+                    {a.values.map(cell)}
                 </tr>
             )),
             (<tr style={style}>
                 <td><b>Footer</b></td>
-                {group.footer.map((v, si) => <td key={si}><b>{v}</b></td>)}
+                {group.footer.map(cell)}
             </tr>)
             ]
         )
@@ -44,7 +61,7 @@ const sortingIndicator = (sorter: SortingIndicator) =>
 function header(report: Report, sorter: SortingCallback) {
     const width = (100 / report.columns.length) + '%';
     return (<tr>
-        {report.columns.map((c, i) => <th style={{ width }}
+        {report.columns.map((c, i) => <th className="text-center" style={{ width }}
             key={i}
             onClick={() => sorter(i)}>{c.name}{sortingIndicator(c.sorted)}</th>)}
     </tr>);

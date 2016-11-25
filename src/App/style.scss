@@ -21,3 +21,26 @@ th{
 .glyphicon-remove{
     padding-left: 5px;
 }
+
+
+.wrapper {
+  position: relative;
+}
+.firstCell {
+  right: 50%;
+  position: absolute;
+  padding-right: 3%;
+  
+}
+.borderedCell{
+    border-right: 1px dotted black;
+}
+.secondCell {
+  position: relative;
+  left: 50%;
+  padding-left: 3%;
+}
+
+.text-center {
+    text-align: center;
+}
