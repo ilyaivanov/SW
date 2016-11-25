@@ -15,8 +15,10 @@ const splitedCell = (leftValue, rightValue, bordered) => (
 );
 
 const cell = (cellInfo: string | number, index: number) => {
-    const formatNumber = (cell: number) => splitedCell((cell % 2 == 0 ? cell + '' : '13,659'), '0%', true);
-    const cell: React.ReactElement<{}> = (typeof cellInfo == 'string') ? <div>{cellInfo}</div> : formatNumber(cellInfo);
+    const cell = (typeof cellInfo == 'string') ?
+        <div>{cellInfo}</div> :
+        splitedCell(cellInfo, '0%', true);
+
     return (
         <td key={index}>
             {cell}
