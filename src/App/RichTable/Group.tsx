@@ -39,17 +39,19 @@ export default function createGroup(group: Group, onGroupCollapse, removeGroup) 
             </tr>
         ),
         (
-            [group.answers.map((a, i) => (
-                <tr key={i} className="subgroup" style={style}>
-                    {a.values.map(cell)}
-                </tr>
-            )),
-            (
-                <tr style={style}>
-                    <td><b>Footer</b></td>
-                    {group.footer.map(cell)}
-                </tr>
-            )]
+            [
+                group.answers.map((a, i) => (
+                    <tr key={i} className="subgroup" style={style}>
+                        {a.values.map(cell)}
+                    </tr>
+                )),
+                (
+                    <tr style={style}>
+                        <td><b>Footer</b></td>
+                        {group.footer.map(cell)}
+                    </tr>
+                )
+            ]
         )
     ];
 }
