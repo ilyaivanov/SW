@@ -5,11 +5,17 @@ const collapsed = (isCollapsed, onGroupCollapse) => isCollapsed ?
     <span onClick={onGroupCollapse} className="glyphicon glyphicon-plus"></span> :
     <span onClick={onGroupCollapse} className="glyphicon glyphicon-minus"></span>;
 
-function group(group: Group, onGroupCollapse) {
+
+
+function group(group: Group, onGroupCollapse, removeGroup) {
+
     const style = group.isCollapsed ? { display: 'none' } : {};
     return [
         (<tr className="group-title">
-            <td>{collapsed(group.isCollapsed, () => onGroupCollapse(group))}{group.name}</td>
+            <td>{collapsed(group.isCollapsed, () => onGroupCollapse(group))}
+                {group.name}
+                <span onClick={() => removeGroup(group)} className="glyphicon glyphicon-remove"></span>
+            </td>
             <td><small>wgt</small></td>
             <td><small>wgt</small></td>
             <td><small>wgt</small></td>
@@ -47,13 +53,13 @@ function header(report: Report, sorter: SortingCallback) {
 type SortingCallback = (index: number) => void;
 type GroupCollapse = (group: Group) => void;
 
-export default (props: { report: Report, onSort: SortingCallback, onGroupCollapse: GroupCollapse }) => (
+export default (props: { report: Report, onSort: SortingCallback, onGroupCollapse: GroupCollapse, removeGroup: GroupCollapse }) => (
     <table className="table">
         <thead>
             {header(props.report, props.onSort)}
         </thead>
         <tbody>
-            {props.report.groups.map(g => group(g, props.onGroupCollapse))}
+            {props.report.groups.map(g => group(g, props.onGroupCollapse, props.removeGroup))}
         </tbody>
     </table>
 );

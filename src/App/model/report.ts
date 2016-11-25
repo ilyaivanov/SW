@@ -57,6 +57,13 @@ export function sort(report: Report, columnIndex: number) {
     return report;
 }
 
-export function toggleCollapsed(group: Group){
+export function toggleCollapsed(report: Report, group: Group){
     group.isCollapsed = !group.isCollapsed;
+    return report;
+}
+
+
+export function removeGroup(report:Report, group: Group){
+    report.groups = report.groups.filter(g => g != group);
+    return report;
 }
