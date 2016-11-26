@@ -8,9 +8,12 @@
     background-color: #D6ECF7;
 }
 
-th{
+.column-title{
     cursor: pointer;
     color: #2fa4e7;
+    &:hover{
+        text-decoration: underline;
+    }
 }
 
 .glyphicon{
