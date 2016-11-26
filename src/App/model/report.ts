@@ -18,15 +18,15 @@ const createGroups = (name) => {
     let answers: Answers[];
     if (name == 'Gender')
         return createGroup(name, [
-            answer(1, ['Male', {v:100, p:0}, {v:1740, p:0}]),
-            answer(2, ['Female', {v:3700, p:0}, {v:1500, p:0}]),
+            answer(1, ['Male', { v: 100, p: 0 }, { v: 1740, p: 0 }]),
+            answer(2, ['Female', { v: 3700, p: 0 }, { v: 1500, p: 0 }]),
         ])
     else
         return createGroup(name, [
-            answer(1, ['Married', {v:4700, p:0}, {v:1200, p:0}]),
-            answer(2, ['Single', {v:8700, p:0}, {v:1400, p:0}]),
-            answer(3, ['Other', {v:7600, p:0}, {v:7500, p:0}]),
-            answer(4, ['Partened', {v:2700, p:0}, {v:1330, p:0}]),
+            answer(1, ['Married', { v: 4700, p: 0 }, { v: 1200, p: 0 }]),
+            answer(2, ['Single', { v: 8700, p: 0 }, { v: 1400, p: 0 }]),
+            answer(3, ['Other', { v: 7600, p: 0 }, { v: 7500, p: 0 }]),
+            answer(4, ['Partened', { v: 2700, p: 0 }, { v: 1330, p: 0 }]),
         ]);
 }
 
@@ -39,7 +39,7 @@ export function createGroup(name, answers: Answers[]): Group {
     };
 }
 
-function percent(cells: Cell[]){
+function percent(cells: Cell[]) {
     let total = cells[cells.length - 1].v;
     cells.forEach(c => c.p = c.v / total);
 }
@@ -81,8 +81,10 @@ export function sort(report: Report, columnIndex: number) {
     report.groups.forEach(g => {
         if (currentColumn.sorted == Sorting.None)
             g.answers = _.orderBy(g.answers, (x: Answers) => x.initialOrder);
-        else
-            g.answers = _.orderBy(g.answers, (x: Answers) => x.values[columnIndex]);
+        else {
+            const predicate = (cell: (string | Cell)) => typeof cell == 'string' ? cell : cell.v;
+            g.answers = _.orderBy(g.answers, (x: Answers) => predicate(x.values[columnIndex]));
+        }
 
         if (currentColumn.sorted == Sorting.Desc)
             g.answers = _.reverse(g.answers);
