@@ -50,7 +50,7 @@ function header(report: Report, sorter: Function) {
 
   const width = (100 / report.columns.length) + '%';
   return (<tr>
-    {report.columns.map((c, i) => <th className="text-center" style={{ width }}
+    {report.columns.map((c, i) => <th className="text-center column-title-cell" style={{ width }}
       key={i}>
       <span className="column-title" onClick={() => sorter(i)}>{c.name}</span>
       {sortingIndicator(c.sorted)}

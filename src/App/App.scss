@@ -9,13 +9,24 @@
     cursor: pointer;
 }
 
-.column-title{
-    cursor: pointer;
-    color: #2fa4e7;
+.column-title-cell{
+    .column-title{
+        cursor: pointer;
+        color: #2fa4e7;
+        &:hover{
+            text-decoration: underline;
+        }
+    }
+    .glyphicon-remove{
+        visibility: hidden;
+    }
     &:hover{
-        text-decoration: underline;
+        .glyphicon-remove{
+            visibility: visible;
+        }
     }
 }
+
 
 .glyphicon{
     cursor: pointer;
