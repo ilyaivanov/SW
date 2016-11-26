@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as cx from 'classnames';
 
-import { Group, Report, Sorting } from '../../types/report';
+import { Cell, Group, Report, Sorting } from '../../types/report';
 
 const collapsed = (isCollapsed, onGroupCollapse) => isCollapsed ?
     <span onClick={onGroupCollapse} className="glyphicon glyphicon-plus"></span> :
@@ -14,11 +14,10 @@ const splitedCell = (leftValue, rightValue, bordered) => (
     </div>
 );
 
-const cell = (cellInfo: string | number, index: number) => {
+const cell = (cellInfo: string | Cell, index: number) => {
     const cell = (typeof cellInfo == 'string') ?
         <div>{cellInfo}</div> :
-        splitedCell(cellInfo, '0%', true);
-
+        splitedCell(cellInfo.v, (cellInfo.p*100).toFixed(0)+'%', true);
     return (
         <td key={index}>
             {cell}

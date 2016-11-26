@@ -1,47 +1,29 @@
 import * as _ from 'lodash';
 import { Answers } from '../../types/report';
 
-import createReport, { calculateTotals } from './report';
+import createReport, { createGroup } from './report';
 
 describe('When creating a report', () => {
     it('totals should be calculated correctly', () => {
         const answers: Answers[] = [
             {
                 initialOrder: 1,
-                values: ['Male', 50, 10]
+                values: ['Male', { v: 50, p: 0 }, { v: 150, p: 0 }]
             },
             {
                 initialOrder: 2,
-                values: ['Female', 500, 100]
+                values: ['Female', { v: 90, p: 0 }, { v: 10, p: 0 }]
             }
         ];
-        const group = calculateTotals('_', answers);
-        expect(group.answers[0].values).toEqual(['Male', 50, 10, 60]);
-        expect(group.answers[1].values).toEqual(['Female', 500, 100, 600]);
-        expect(group.footer).toEqual([550, 110, 660]);
+        const group = createGroup('_', answers);
+        expect(group.answers[0].values)
+            .toEqual(['Male', { v: 50, p: 0.25 }, { v: 150, p: 0.75 }, { v: 200, p: 1 }]);
+
+        expect(group.answers[1].values)
+            .toEqual(['Female', { v: 90, p: 0.9 }, { v: 10, p: 0.1 }, { v: 100, p: 1 }]);
+        expect(group.footer).toEqual([
+            { v: 140, p: 0.4666666666666667 },
+            { v: 160, p: 1 - 0.4666666666666667 },
+            { v: 300, p: 1 }]);
     })
-
-    it('Gender structure should be correct', () => {
-        const report = createReport();
-
-        expect(report.columns.length).toBe(4);
-
-        expect(report.groups[0]).toEqual({
-            name: 'Gender',
-            isCollapsed: false,
-            answers: [
-                {
-                    initialOrder: 1,
-                    values: ['Male', 1700, 130, 1830]
-                },
-                {
-                    initialOrder: 2,
-                    values: ['Female', 560, 160, 720]
-                },
-            ],
-            footer: [2260, 290, 2550]
-        })
-
-    })
-
 })

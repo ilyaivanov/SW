@@ -11,19 +11,22 @@ export interface Group {
     name: string
     isCollapsed: boolean
 
-    footer: number[]
+    footer: Cell[]
     answers: Answers[]
 }
 export interface Answers {
     initialOrder: number
-    values: (string | number)[]
+    values: (string | Cell)[]
 }
 
 export interface ColumnInfo {
     name: string
     sorted: Sorting
 }
-
+export class Cell {
+    v: number
+    p: number
+}
 
 //models to create:
 // report creating spec (simple pojo with initial values)
