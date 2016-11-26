@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
-import { Answers } from '../../types/report';
+import { Answers, Report } from '../../types/report';
 
-import createReport, { createGroup } from './report';
+import createReport, { createGroup, createGenderReportOverAcuraAndBmw, removeColumn } from './report';
 
 describe('When creating a report', () => {
     it('totals should be calculated correctly', () => {
@@ -27,3 +27,21 @@ describe('When creating a report', () => {
             { v: 300, p: 1 }]);
     })
 })
+
+
+describe('when removing a column by index', () => {
+    it('should be remove from report', () => {
+        const report: Report = createGenderReportOverAcuraAndBmw();
+        
+        expect(report.columns.map(c => c.name)).toEqual(['Name', 'Acura', 'BMW', 'Total']);
+        expect(report.groups[0].answers[0].values.length).toBe(4);
+        expect(report.groups[0].footer.length).toBe(3);
+
+        const newReport = removeColumn(report, 1);
+
+        expect(report.columns.map(c => c.name)).toEqual(['Name', 'BMW', 'Total']);
+        expect(report.groups[0].answers[0].values.length).toBe(3);
+        expect(report.groups[0].footer.length).toBe(2);
+    })
+})
+

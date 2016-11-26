@@ -1,6 +1,6 @@
 import * as React from 'react';
 import RichTable from './RichTable/RichTable';
-import createReport, { sort, toggleCollapsed, removeGroup } from './model/report';
+import createReport, {removeColumn, sort, toggleCollapsed, removeGroup } from './model/report';
 import { Group, Report, Sorting } from '../types/report';
 
 import './App.scss';
@@ -24,8 +24,8 @@ export default class App extends React.Component<{}, { report: Report }>{
     this.setState({ report: removeGroup(this.state.report, group) });
   }
 
-  headers = () => {
-
+  removeColumn = (index) => {
+    this.setState({ report: removeColumn(this.state.report, index) });
   }
 
   render() {
@@ -35,14 +35,14 @@ export default class App extends React.Component<{}, { report: Report }>{
         <h2>Summary</h2>
         <RichTable
           report={this.state.report}
-          headers={header(this.state.report, this.sort)}
+          headers={header(this.state.report, this.sort, this.removeColumn)}
           onGroupCollapse={this.toggle}
           removeGroup={this.remove} />
       </div>
     )
   }
 }
-function header(report: Report, sorter: Function) {
+function header(report: Report, sorter: Function, removeColumn: Function) {
   const sortingIndicator = (sorter: Sorting) =>
     sorter == Sorting.Asc ? <span className="glyphicon glyphicon-chevron-up"></span> :
       sorter == Sorting.Desc ? <span className="glyphicon glyphicon-chevron-down"></span> :
@@ -54,7 +54,7 @@ function header(report: Report, sorter: Function) {
       key={i}>
       <span className="column-title" onClick={() => sorter(i)}>{c.name}</span>
       {sortingIndicator(c.sorted)}
-      {(i != 0 && i != report.columns.length - 1) ? <span className="glyphicon glyphicon-remove text-danger"></span> : null}
+      {(i != 0 && i != report.columns.length - 1) ? <span className="glyphicon glyphicon-remove text-danger" onClick={() => removeColumn(i)}></span> : null}
     </th>)}
   </tr>);
 }

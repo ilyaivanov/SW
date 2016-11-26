@@ -17,10 +17,7 @@ const column = name => ({ name, sorted: Sorting.None })
 const createGroups = (name) => {
     let answers: Answers[];
     if (name == 'Gender')
-        return createGroup(name, [
-            answer(1, ['Male', { v: 100, p: 0 }, { v: 1740, p: 0 }]),
-            answer(2, ['Female', { v: 3700, p: 0 }, { v: 1500, p: 0 }]),
-        ])
+        return genderGroup()
     else
         return createGroup(name, [
             answer(1, ['Married', { v: 4700, p: 0 }, { v: 1200, p: 0 }]),
@@ -28,6 +25,21 @@ const createGroups = (name) => {
             answer(3, ['Other', { v: 7600, p: 0 }, { v: 7500, p: 0 }]),
             answer(4, ['Partened', { v: 2700, p: 0 }, { v: 1330, p: 0 }]),
         ]);
+}
+
+function genderGroup() {
+    return createGroup('Gender', [
+        answer(1, ['Male', { v: 100, p: 0 }, { v: 1740, p: 0 }]),
+        answer(2, ['Female', { v: 3700, p: 0 }, { v: 1500, p: 0 }]),
+    ])
+}
+export function createGenderReportOverAcuraAndBmw() {
+    return {
+        columns: [column('Name'), column('Acura'), column('BMW'), column('Total')],
+        groups: [
+            createGroups('Gender')
+        ]
+    };
 }
 
 export function createGroup(name, answers: Answers[]): Group {
@@ -100,5 +112,18 @@ export function toggleCollapsed(report: Report, group: Group) {
 
 export function removeGroup(report: Report, group: Group) {
     report.groups = report.groups.filter(g => g != group);
+    return report;
+}
+
+
+export function removeColumn(report: Report, columnIndex: number) {
+    report.columns.splice(columnIndex, 1)
+
+    report.groups.forEach(g => {
+        g.answers.forEach(a => {
+            a.values.splice(columnIndex, 1);
+        })
+        g.footer.splice(columnIndex - 1, 1);
+    })
     return report;
 }

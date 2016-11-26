@@ -48,7 +48,7 @@ export default function createGroup(group: Group, onGroupCollapse, removeGroup) 
                 )),
                 (
                     <tr>
-                        <td><b>Footer</b></td>
+                        <td><b>Weighted response</b></td>
                         {group.footer.map(cell)}
                     </tr>
                 )
