@@ -6,7 +6,19 @@
 
 .group-title{
     background-color: #D6ECF7;
-    cursor: pointer;
+    cursor: pointer;   
+}
+
+.group-title,
+.column-title-cell{
+    .glyphicon-remove{
+        visibility: hidden;
+    }
+    &:hover{
+        .glyphicon-remove{
+            visibility: visible;
+        }
+    }
 }
 
 .column-title-cell{
@@ -15,14 +27,6 @@
         color: #2fa4e7;
         &:hover{
             text-decoration: underline;
-        }
-    }
-    .glyphicon-remove{
-        visibility: hidden;
-    }
-    &:hover{
-        .glyphicon-remove{
-            visibility: visible;
         }
     }
 }
