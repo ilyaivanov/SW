@@ -3,9 +3,9 @@ import * as cx from 'classnames';
 
 import { Cell, Group, Report, Sorting } from '../../types/report';
 
-const collapsed = (isCollapsed, onGroupCollapse) => isCollapsed ?
-    <span onClick={onGroupCollapse} className="glyphicon glyphicon-plus"></span> :
-    <span onClick={onGroupCollapse} className="glyphicon glyphicon-minus"></span>;
+const collapsed = (isCollapsed) => isCollapsed ?
+    <span className="glyphicon glyphicon-plus-sign"></span> :
+    <span className="glyphicon glyphicon-minus-sign"></span>;
 
 const splitedCell = (leftValue, rightValue, bordered) => (
     <div className="wrapper">
@@ -28,11 +28,11 @@ const cell = (cellInfo: string | Cell, index: number) => {
 const labels = group => group.footer.map(() => <td>{splitedCell('wgt', 'cnt', false)}</td>);
 
 export default function createGroup(group: Group, onGroupCollapse, removeGroup) {
-    const style = group.isCollapsed ? { display: 'none' } : {};
+    const collapsedStyle = group.isCollapsed ? { display: 'none' } : {};
     return [
         (
-            <tr className="group-title">
-                <td>{collapsed(group.isCollapsed, () => onGroupCollapse(group))}
+            <tr className="group-title" onClick={() => onGroupCollapse(group)}>
+                <td>{collapsed(group.isCollapsed )}
                     {group.name}
                     <span onClick={() => removeGroup(group)} className="glyphicon glyphicon-remove"></span>
                 </td>
@@ -42,12 +42,12 @@ export default function createGroup(group: Group, onGroupCollapse, removeGroup) 
         (
             [
                 group.answers.map((a, i) => (
-                    <tr key={i} className="subgroup" style={style}>
+                    <tr key={i} className="subgroup" style={collapsedStyle}>
                         {a.values.map(cell)}
                     </tr>
                 )),
                 (
-                    <tr style={style}>
+                    <tr>
                         <td><b>Footer</b></td>
                         {group.footer.map(cell)}
                     </tr>

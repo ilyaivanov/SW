@@ -48,15 +48,13 @@ function header(report: Report, sorter: Function) {
       sorter == Sorting.Desc ? <span className="glyphicon glyphicon-chevron-down"></span> :
         null;
 
-
-
   const width = (100 / report.columns.length) + '%';
   return (<tr>
     {report.columns.map((c, i) => <th className="text-center" style={{ width }}
       key={i}>
       <span className="column-title" onClick={() => sorter(i)}>{c.name}</span>
       {sortingIndicator(c.sorted)}
-      {(i != 0 && i != report.columns.length - 1) ? <span className="glyphicon glyphicon-remove"></span> : null}
+      {(i != 0 && i != report.columns.length - 1) ? <span className="glyphicon glyphicon-remove text-danger"></span> : null}
     </th>)}
   </tr>);
 }
@@ -68,7 +66,7 @@ function navBar() {
         <a className="navbar-brand" href="#">SW Prototype</a>
       </div>
 
-      <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div className="collapse navbar-collapse">
         <ul className="nav navbar-nav">
           <li ><a href="#">Details</a></li>
           <li className="active"><a href="#">Summary</a></li>
