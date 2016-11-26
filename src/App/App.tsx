@@ -27,9 +27,11 @@ export default class App extends React.Component<{}, { report: Report }>{
   headers = () => {
 
   }
+
   render() {
     return (
       <div>
+        {navBar()}
         <h2>Summary</h2>
         <RichTable
           report={this.state.report}
@@ -57,4 +59,21 @@ function header(report: Report, sorter: Function) {
       {(i != 0 && i != report.columns.length - 1) ? <span className="glyphicon glyphicon-remove"></span> : null}
     </th>)}
   </tr>);
+}
+
+function navBar() {
+  return (<nav className="navbar navbar-default">
+    <div className="container-fluid">
+      <div className="navbar-header">
+        <a className="navbar-brand" href="#">SW Prototype</a>
+      </div>
+
+      <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul className="nav navbar-nav">
+          <li ><a href="#">Details</a></li>
+          <li className="active"><a href="#">Summary</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>);
 }
