@@ -1,45 +1,26 @@
 import * as _ from 'lodash';
 import { Cell, Sorting, Report, Group, Answers } from '../../types/report';
 
-const answer = (initialOrder, values) => ({ initialOrder, values });
 
-export default function createReport(): Report {
-    return {
-        columns: [column('Name'), column('Acura'), column('BMW'), column('Total')],
-        groups: [
-            createGroups('Gender'),
-            createGroups('Marital Status')
-        ]
-    };
-}
+//Utils
+const start = 'A'.charCodeAt(0);
+const charFromIndex = index => String.fromCharCode(start + index);
+const randomInteger = max => Math.floor(Math.random() * max);
+
+const integersFromZero = (length: number) => _.range(0, length);
+
+
+
 const column = name => ({ name, sorted: Sorting.None })
 
-const createGroups = (name) => {
-    let answers: Answers[];
-    if (name == 'Gender')
-        return genderGroup()
-    else
-        return createGroup(name, [
-            answer(1, ['Married', { v: 4700, p: 0 }, { v: 1200, p: 0 }]),
-            answer(2, ['Single', { v: 8700, p: 0 }, { v: 1400, p: 0 }]),
-            answer(3, ['Other', { v: 7600, p: 0 }, { v: 7500, p: 0 }]),
-            answer(4, ['Partened', { v: 2700, p: 0 }, { v: 1330, p: 0 }]),
-        ]);
-}
-
-function genderGroup() {
-    return createGroup('Gender', [
-        answer(1, ['Male', { v: 100, p: 0 }, { v: 1740, p: 0 }]),
-        answer(2, ['Female', { v: 3700, p: 0 }, { v: 1500, p: 0 }]),
-    ])
-}
-export function createGenderReportOverAcuraAndBmw() {
-    return {
-        columns: [column('Name'), column('Acura'), column('BMW'), column('Total')],
-        groups: [
-            createGroups('Gender')
-        ]
-    };
+const answer = (initialOrder, values) => ({ initialOrder, values });
+function generateGroup(questionIndex: number, width: number) {
+    let indices = _.range(1, randomInteger(11));
+    let answers = indices.map(i => {
+        let cells = _.range(0, width).map(i => ({ v: randomInteger(1000), p: 0 }));
+        return answer(i, [`Answer ${i}`].concat(cells as any));
+    });
+    return createGroup(`Question ${charFromIndex(questionIndex)}`, answers)
 }
 
 export function createGroup(name, answers: Answers[]): Group {
@@ -56,16 +37,6 @@ function percent(cells: Cell[]) {
     cells.forEach(c => c.p = c.v / total);
 }
 
-function getAnswersWithTotal(answers: Answers[]) {
-    answers.forEach(answer => {
-        let cells = answers => answer.values
-            .filter(v => typeof v != 'string') as Cell[];
-        const total = _.sum(cells(answers).map((c: Cell) => c.v))
-        answer.values.push({ v: total, p: 0 })
-        percent(cells(answers));
-    });
-    return answers;
-}
 function footer(answers: Answers[]): Cell[] {
     const footer = [];
     const add = (arrays) => _.zipWith(...arrays, (...numbers) => ({ v: _.sum(numbers), p: 1 })) as Cell[];
@@ -76,6 +47,24 @@ function footer(answers: Answers[]): Cell[] {
 }
 
 
+
+function getAnswersWithTotal(answers: Answers[]) {
+    answers.forEach(answer => {
+        let cells = answers => answer.values
+            .filter(v => typeof v != 'string') as Cell[];
+        const total = _.sum(cells(answers).map((c: Cell) => c.v))
+        answer.values.push({ v: total, p: 0 })
+        percent(cells(answers));
+    });
+    return answers;
+}
+
+export default function createReport(numberOfRows: number, numberOfColumns: number): Report {
+    let columns = integersFromZero(numberOfColumns).map(i => column(`Category ${charFromIndex(i)}`));
+    columns = [column('Name')].concat(columns).concat([column('Total')]);
+    let groups = integersFromZero(numberOfRows).map(i => generateGroup(i, numberOfColumns));
+    return { columns, groups };
+}
 
 
 export function sort(report: Report, columnIndex: number) {

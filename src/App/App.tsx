@@ -1,38 +1,43 @@
 import * as React from 'react';
 import RichTable from './RichTable/RichTable';
-import createReport, {removeColumn, sort, toggleCollapsed, removeGroup } from './model/report';
+import createReport, { removeColumn, sort, toggleCollapsed, removeGroup } from './model/report';
 import { Group, Report, Sorting } from '../types/report';
 
 import './App.scss';
 
+interface State { report: Report }
 
-export default class App extends React.Component<{}, { report: Report }>{
+
+
+export default class App extends React.Component<{}, State>{
   constructor(props) {
     super(props);
-    this.state = { report: createReport() }
+    this.state = { report: createReport(3, 3) }
   }
 
-  sort = (columnIndex: number) => {
+  sort = (columnIndex: number) =>
     this.setState({ report: sort(this.state.report, columnIndex) });
-  }
 
-  toggle = (group) => {
+
+  toggle = (group) =>
     this.setState({ report: toggleCollapsed(this.state.report, group) });
-  }
 
-  remove = (group) => {
+
+  remove = (group) =>
     this.setState({ report: removeGroup(this.state.report, group) });
-  }
 
-  removeColumn = (index) => {
+
+  removeColumn = (index) =>
     this.setState({ report: removeColumn(this.state.report, index) });
-  }
 
   render() {
     return (
       <div>
         {navBar()}
-        <h2>Summary</h2>
+        <div className="page-title">
+          <h2>Summary</h2>
+        </div>
+
         <RichTable
           report={this.state.report}
           headers={header(this.state.report, this.sort, this.removeColumn)}
