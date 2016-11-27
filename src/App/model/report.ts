@@ -1,7 +1,6 @@
 import * as _ from 'lodash';
 import { Cell, ColumnInfo, Sorting, Report, Group, Answers } from '../../types/report';
 
-
 //Utils
 const start = 'A'.charCodeAt(0);
 const charFromIndex = index => String.fromCharCode(start + index);
@@ -10,9 +9,7 @@ const randomInteger = max => Math.floor(Math.random() * max);
 const integersFromZero = (length: number) => _.range(0, length);
 //end of Utils
 
-
 const getNumericCells = (cells: (string | Cell)[]) => cells.filter(v => typeof v != 'string') as Cell[];
-
 
 const column = (name: string): ColumnInfo => ({ name, sorted: Sorting.None })
 const cell = (v: number): Cell => ({ v, p: 0 });
@@ -69,53 +66,3 @@ const createReport = (numberOfRows: number, numberOfColumns: number): Report => 
 }
 
 export default createReport;
-
-export function sort(report: Report, columnIndex: number) {
-    let currentColumn = report.columns[columnIndex];
-    let currentSortingOrder = currentColumn.sorted;
-
-    report.columns.forEach(c => c.sorted = Sorting.None);
-
-    if (currentSortingOrder == Sorting.Asc) {
-        currentColumn.sorted = Sorting.Desc;
-    } else if (currentSortingOrder == Sorting.None) {
-        currentColumn.sorted = Sorting.Asc;
-    }
-
-    report.groups.forEach(g => {
-        if (currentColumn.sorted == Sorting.None)
-            g.answers = _.orderBy(g.answers, (x: Answers) => x.initialOrder);
-        else {
-            const predicate = (cell: (string | Cell)) => typeof cell == 'string' ? cell : cell.v;
-            g.answers = _.orderBy(g.answers, (x: Answers) => predicate(x.values[columnIndex]));
-        }
-
-        if (currentColumn.sorted == Sorting.Desc)
-            g.answers = _.reverse(g.answers);
-    });
-    return report;
-}
-
-export function toggleCollapsed(report: Report, group: Group) {
-    group.isCollapsed = !group.isCollapsed;
-    return report;
-}
-
-
-export function removeGroup(report: Report, group: Group) {
-    report.groups = report.groups.filter(g => g != group);
-    return report;
-}
-
-
-export function removeColumn(report: Report, columnIndex: number) {
-    report.columns.splice(columnIndex, 1)
-
-    report.groups.forEach(g => {
-        g.answers.forEach(a => {
-            a.values.splice(columnIndex, 1);
-        })
-        g.footer.splice(columnIndex - 1, 1);
-    })
-    return report;
-}

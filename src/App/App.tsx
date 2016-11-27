@@ -1,6 +1,8 @@
 import * as React from 'react';
 import RichTable from './RichTable/RichTable';
-import createReport, { removeColumn, sort, toggleCollapsed, removeGroup } from './model/report';
+import createReport from './model/report';
+import { removeColumn, sort, toggleCollapsed, removeGroup } from './sumary/operations';
+
 import { Group, Report, Sorting } from '../types/report';
 
 import './App.scss';
