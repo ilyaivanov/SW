@@ -39,7 +39,6 @@ export default class App extends React.Component<{}, State>{
         <div className="page-title">
           <h2>Summary</h2>
         </div>
-
         <RichTable
           report={this.state.report}
           headers={header(this.state.report, this.sort, this.removeColumn)}
@@ -75,7 +74,7 @@ function navBar() {
 
       <div className="collapse navbar-collapse">
         <ul className="nav navbar-nav">
-          <li ><a href="#">Details</a></li>
+          <li ><a href="JavaScript:;" style={{cursor: 'not-allowed'}}>Details</a></li>
           <li className="active"><a href="#">Summary</a></li>
         </ul>
       </div>
