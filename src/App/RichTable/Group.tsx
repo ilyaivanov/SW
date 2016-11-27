@@ -17,7 +17,7 @@ const splitedCell = (leftValue, rightValue, bordered) => (
 const cell = (cellInfo: string | Cell, index: number) => {
     const cell = (typeof cellInfo == 'string') ?
         <div>{cellInfo}</div> :
-        splitedCell(cellInfo.v, (cellInfo.p*100).toFixed(0)+'%', true);
+        splitedCell(cellInfo.v, (cellInfo.p * 100).toFixed(0) + '%', true);
     return (
         <td key={index}>
             {cell}
@@ -25,14 +25,14 @@ const cell = (cellInfo: string | Cell, index: number) => {
     );
 }
 
-const labels = group => group.footer.map(() => <td>{splitedCell('wgt', 'cnt', false)}</td>);
+const labels = group => group.footer.map((_, i) => <td key={i}>{splitedCell('wgt', 'cnt', false)}</td>);
 
 export default function createGroup(group: Group, onGroupCollapse, removeGroup) {
     const collapsedStyle = group.isCollapsed ? { display: 'none' } : {};
     return [
         (
-            <tr className="group-title" onClick={() => onGroupCollapse(group)}>
-                <td>{collapsed(group.isCollapsed )}
+            <tr key={group.name + "_header"} className="group-title" onClick={() => onGroupCollapse(group)}>
+                <td key={"-1"}>{collapsed(group.isCollapsed)}
                     {group.name}
                     <span onClick={() => removeGroup(group)} className="glyphicon glyphicon-remove"></span>
                 </td>
@@ -40,19 +40,17 @@ export default function createGroup(group: Group, onGroupCollapse, removeGroup) 
             </tr>
         ),
         (
-            [
-                group.answers.map((a, i) => (
-                    <tr key={i} className="subgroup" style={collapsedStyle}>
-                        {a.values.map(cell)}
-                    </tr>
-                )),
-                (
-                    <tr>
-                        <td><b>Weighted response</b></td>
-                        {group.footer.map(cell)}
-                    </tr>
-                )
-            ]
+            [group.answers.map((a, i) => (
+                <tr key={group.name + '_' + i} className="subgroup" style={collapsedStyle}>
+                    {a.values.map(cell)}
+                </tr>
+            ))]
+        ),
+        (
+            <tr key={group.name + "_footer"}>
+                <td><b>Weighted response</b></td>
+                {group.footer.map(cell)}
+            </tr>
         )
     ];
 }

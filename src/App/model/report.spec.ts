@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { Answers, Report } from '../../types/report';
 
-import createReport, { createGroup, removeColumn } from './report';
+import createReport, { group as createGroup, removeColumn } from './report';
 
 describe('When creating a report', () => {
     it('totals should be calculated correctly', () => {
