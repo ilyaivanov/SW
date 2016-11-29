@@ -24,13 +24,7 @@ class App extends React.Component<{}, {}> {
 			<div>
 				<table className="table">
 					<thead>
-						<tr>
-							<th>1</th>
-							<th>2</th>
-							<th>3</th>
-							<th>4</th>
-							<th>5</th>
-						</tr>
+						<Container id={1} list={listOne} />
 					</thead>
 					<tbody>
 						<tr>
@@ -42,9 +36,6 @@ class App extends React.Component<{}, {}> {
 						</tr>
 					</tbody>
 				</table>
-				<div style={style}>
-					<Container id={1} list={listOne} />
-				</div>
 			</div>
 		);
 	}

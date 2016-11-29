@@ -8,19 +8,22 @@ const style = {
 	padding: '0.5rem 1rem',
 	margin: '.5rem',
 	backgroundColor: 'white',
-	cursor: 'move'
+	// cursor: 'ew-resize'
 };
-
+const handleStyle = {
+	paddingLeft: '10px',
+	cursor: 'ew-resize'
+};
 class Card extends React.Component<{}, {}> {
 
 	render() {
-		const { card, isDragging, connectDragSource, connectDropTarget } = this.props;
-		// const opacity = isDragging ? 0 : 1;
-		const opacity = isDragging ? 0 : 1;
-		return connectDragSource(connectDropTarget(
-			<div style={_.assign({}, style, {opacity})}>
+		const { card, isDragging, connectDragSource, connectDropTarget, connectDragPreview } = this.props;
+		const opacity = isDragging ? 0.2 : 1;
+		return connectDragPreview(connectDropTarget(
+			<th style={_.assign({}, { opacity })}>
 				{card.text}
-			</div>
+				{connectDragSource(<i style={handleStyle} className="glyphicon glyphicon-menu-hamburger"></i>)}
+			</th>
 		));
 	}
 }
@@ -36,6 +39,7 @@ const cardSource = {
 	},
 
 	endDrag(props, monitor) {
+		console.log('end drag')
 		// const item = monitor.getItem();
 		// const dropResult = monitor.getDropResult();
 
@@ -102,6 +106,7 @@ export default _.flow(
 	})),
 	DragSource("CARD", cardSource, (connect, monitor) => ({
 		connectDragSource: connect.dragSource(),
+		connectDragPreview: connect.dragPreview(),
 		isDragging: monitor.isDragging()
 	}))
 )(Card);

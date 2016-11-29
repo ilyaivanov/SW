@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import update from 'react-addons-update';
-import Card from './Card';
+import Card from './Header';
 import { DropTarget } from 'react-dnd';
 
 class Container extends React.Component<{}, { cards: Card[] }> {
@@ -12,13 +11,11 @@ class Container extends React.Component<{}, { cards: Card[] }> {
 	}
 
 	pushCard(card) {
-		console.log(update);
 		this.state.cards.push(card);
 		this.forceUpdate();
 	}
 
 	removeCard(index) {
-		console.log(update);
 		this.state.cards.splice(index, 1);
 		this.forceUpdate();
 	}
@@ -26,7 +23,6 @@ class Container extends React.Component<{}, { cards: Card[] }> {
 	moveCard(dragIndex, hoverIndex) {
 		const { cards } = this.state;
 		const dragCard = cards[dragIndex];
-		console.log('move', cards, dragIndex, hoverIndex)
 		this.state.cards.splice(dragIndex, 1);
 		this.state.cards.splice(hoverIndex, 0, dragCard);
 		this.forceUpdate();
@@ -36,16 +32,9 @@ class Container extends React.Component<{}, { cards: Card[] }> {
 		const { cards } = this.state;
 		const { canDrop, isOver, connectDropTarget } = this.props;
 		const isActive = canDrop && isOver;
-		const style = {
-			height: "100px",
-			border: '1px dashed gray',
-			display:'flex'
-		};
-
-		const backgroundColor = isActive ? 'lightgreen' : '#FFF';
 
 		return connectDropTarget(
-			<div style={_.assign({}, style, {backgroundColor})}>
+			<tr>
 				{cards.map((card, i) => {
 					return (
 						<Card
@@ -57,7 +46,7 @@ class Container extends React.Component<{}, { cards: Card[] }> {
 							moveCard={this.moveCard.bind(this)} />
 					);
 				})}
-			</div>
+			</tr>
 		);
 	}
 }
