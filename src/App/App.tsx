@@ -1,6 +1,7 @@
 import * as React from 'react';
 import RichTable from './RichTable/RichTable';
 import createReport from './model/report';
+import Pills from '../sortable-target/App';
 import { removeColumn, sort, toggleCollapsed, removeGroup } from './sumary/operations';
 
 import { Group, Report, Sorting } from '../types/report';
@@ -38,6 +39,7 @@ export default class App extends React.Component<{}, State>{
         {navBar()}
         <div className="page-title">
           <h2>Summary</h2>
+          <Pills/>
         </div>
         <RichTable
           report={this.state.report}
@@ -64,7 +66,6 @@ function header(report: Report, sorter: Function, removeColumn: Function) {
     </th>)}
   </tr>);
 }
-
 function navBar() {
   return (<nav className="navbar navbar-default">
     <div className="container-fluid">
