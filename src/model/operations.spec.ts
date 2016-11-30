@@ -1,6 +1,6 @@
 import {  removeColumn, swapColumns } from './operations';
 import createReport from './report';
-import { Answers, Report } from './../../types/report';
+import { Answers, Report } from './../types/report';
 
 describe('when removing a column by index', () => {
     it('should be remove from report', () => {

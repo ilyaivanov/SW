@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as cx from 'classnames';
 
-import { Cell, Group, Report, Sorting } from '../../types/report';
+import { Cell, Group, Report, Sorting } from '../types/report';
 
 const collapsed = (isCollapsed) => isCollapsed ?
     <span className="glyphicon glyphicon-plus-sign"></span> :

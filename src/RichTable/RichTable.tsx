@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Group, Report, Sorting } from '../../types/report';
+import { Group, Report, Sorting } from '../types/report';
 import createGroup from './Group';
 
 

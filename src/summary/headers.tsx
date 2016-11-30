@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Group, Report, Sorting } from '../../types/report';
+import { Group, Report, Sorting } from '../types/report';
 
 //if you want to swap remove icon and drag handle
 // you will need to return custom objects here and render them accordingly at Header.tsx

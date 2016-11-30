@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { Cell, ColumnInfo, Sorting, Report, Group, Answers } from '../../types/report';
+import { Cell, ColumnInfo, Sorting, Report, Group, Answers } from '../types/report';
 
 //Utils
 const start = 'A'.charCodeAt(0);

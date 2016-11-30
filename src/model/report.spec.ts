@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { Answers, Report } from '../../types/report';
+import { Answers, Report } from '../types/report';
 
 import createReport, { group as createGroup } from './report';
 

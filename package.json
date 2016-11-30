@@ -34,7 +34,8 @@
     "react-addons-update": "15.4.1",
     "react-dnd": "2.1.4",
     "react-dnd-html5-backend": "2.1.2",
-    "react-dom": "15.3.2"
+    "react-dom": "15.3.2",
+    "react-notification": "6.5.1"
   },
   "devDependencies": {
     "@types/classnames": "0.0.32",
@@ -44,6 +45,7 @@
     "@types/react-addons-update": "0.14.14",
     "@types/react-dom": "0.14.18",
     "autoprefixer": "6.5.3",
+    "bootstrap-sass": "3.3.7",
     "css-loader": "0.25.0",
     "file-loader": "0.9.0",
     "jasmine": "^2.4.1",

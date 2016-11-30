@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { Cell, ColumnInfo, Sorting, Report, Group, Answers } from '../../types/report';
+import { Cell, ColumnInfo, Sorting, Report, Group, Answers } from '../types/report';
 
 export function sort(report: Report, columnIndex: number) {
     let currentColumn = report.columns[columnIndex];
