@@ -1,3 +1,7 @@
+body{
+    margin:0;
+}
+
 .subgroup{
     td:first-child{
         padding-left: 20px !important;
@@ -84,4 +88,12 @@
 
 .navbar-right {
   float: right!important;
+}
+
+.notification-bar-action{
+    font-size: 14px !important;
+}
+
+.notification-bar-message{
+    font-size: 16px !important;
 }
