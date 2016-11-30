@@ -13,6 +13,10 @@ body{
     cursor: pointer;   
 }
 
+.glyphicon:hover{
+    opacity: 0.7;
+}
+
 .group-title,
 .column-title-cell{
     .glyphicon-remove,
