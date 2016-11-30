@@ -14,6 +14,6 @@ export default function createHeadersViews(report: Report, sorter: Function, rem
     key={i}>
     <span className="column-title" onClick={() => sorter(i)}>{c.name}</span>
     {sortingIndicator(c.sorted)}
-    {(i != 0 && i != report.columns.length - 1) ? <span className="glyphicon glyphicon-remove text-danger" onClick={() => removeColumn(i)}></span> : null}
+    {(i != 0) ? <span className="glyphicon glyphicon-remove text-danger" onClick={() => removeColumn(i)}></span> : null}
   </span>);
 }
