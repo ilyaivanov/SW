@@ -1,21 +1,18 @@
 import * as React from 'react';
-import { DragDropContext } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
-
+// import {NotificationStack} from 'react-notification';
 import RichTable from './RichTable/RichTable';
 
 import createReport from './model/report';
 import DragableHeaders from '../sortable-target/DragableHeaders';
+import { Report } from '../types/report';
 import { removeColumn, sort, toggleCollapsed, removeGroup, swapColumns } from './model/operations';
 
-import { Group, Report, Sorting } from '../types/report';
+import createHeaders from './summary/headers';
 import Menu from './Menu';
 
 import './App.scss';
 
 interface State { report: Report }
-
-
 
 export default class App extends React.Component<{}, State>{
   constructor(props) {
@@ -38,38 +35,21 @@ export default class App extends React.Component<{}, State>{
   removeColumn = (index) =>
     this.setState({ report: removeColumn(this.state.report, index) });
 
-  swapColumns = (firstIndex, secondIndex) => 
+  swapColumns = (firstIndex, secondIndex) =>
     this.setState({ report: swapColumns(this.state.report, firstIndex, secondIndex) });
 
   render() {
-    const header1res = createHeadersViews(this.state.report, this.sort, this.removeColumn);
-    const cDropd = <DragableHeaders headers={header1res} moveCard={this.swapColumns} />;
+    const headers = createHeaders(this.state.report, this.sort, this.removeColumn);
+    const dragabbleHeaders = <DragableHeaders headers={headers} moveCard={this.swapColumns} />;
     return (
       <div>
         <Menu />
         <RichTable
           report={this.state.report}
-          headers={cDropd}
+          headers={dragabbleHeaders}
           onGroupCollapse={this.toggle}
           removeGroup={this.remove} />
       </div>
     )
   }
 }
-
-//if you want to swap remove icon and drag handle
-// you will need to return custom objects here and render them accordingly at Header.tsx
-function createHeadersViews(report: Report, sorter: Function, removeColumn: Function) {
-  const sortingIndicator = (sorter: Sorting) =>
-    sorter == Sorting.Asc ? <span className="glyphicon glyphicon-chevron-up"></span> :
-      sorter == Sorting.Desc ? <span className="glyphicon glyphicon-chevron-down"></span> :
-        null;
-
-  return report.columns.map((c, i) => <span
-    key={i}>
-    <span className="column-title" onClick={() => sorter(i)}>{c.name}</span>
-    {sortingIndicator(c.sorted)}
-    {(i != 0 && i != report.columns.length - 1) ? <span className="glyphicon glyphicon-remove text-danger" onClick={() => removeColumn(i)}></span> : null}
-  </span>);
-}
-
