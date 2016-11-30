@@ -50,3 +50,18 @@ export function removeColumn(report: Report, columnIndex: number) {
     })
     return report;
 }
+
+
+export function swapColumns(report: Report, firstIndex: number, secondIndex: number) {
+    report.groups.forEach(g => {
+        g.answers.forEach(a => {
+            const temp = a.values[firstIndex];
+            a.values[firstIndex] = a.values[secondIndex];
+            a.values[secondIndex] = temp;
+        })
+        const temp = g.footer[firstIndex - 1];
+        g.footer[firstIndex - 1] = g.footer[secondIndex - 1];
+        g.footer[secondIndex - 1] = temp;
+    })
+    return report;
+}

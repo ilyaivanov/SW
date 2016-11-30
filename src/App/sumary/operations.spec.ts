@@ -1,4 +1,4 @@
-import {  removeColumn } from './operations';
+import {  removeColumn, swapColumns } from './operations';
 import createReport from '../model/report';
 import { Answers, Report } from '../../types/report';
 
@@ -17,4 +17,3 @@ describe('when removing a column by index', () => {
         expect(report.groups[0].footer.length).toBe(2);
     })
 })
-

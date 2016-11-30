@@ -8,7 +8,7 @@ import Container from '../sortable-target/Container';
 
 import createReport from './model/report';
 import DragableHeaders from '../sortable-target/DragableHeaders';
-import { removeColumn, sort, toggleCollapsed, removeGroup } from './sumary/operations';
+import { removeColumn, sort, toggleCollapsed, removeGroup, swapColumns } from './sumary/operations';
 
 import { Group, Report, Sorting } from '../types/report';
 import Menu from './Menu';
@@ -40,19 +40,19 @@ export default class App extends React.Component<{}, State>{
   removeColumn = (index) =>
     this.setState({ report: removeColumn(this.state.report, index) });
 
-
-  //extract moveCard to App.tsx
-  moveCard(dragIndex, hoverIndex) {
-    const { columns} = this.state.report;
-    const dragCard = columns[dragIndex];
-    this.state.report.columns.splice(dragIndex, 1);
-    this.state.report.columns.splice(hoverIndex, 0, dragCard);
+  swapColumns = (firstIndex, secondIndex) => {
+    const columns = this.state.report.columns;
+    const dragCard = columns[firstIndex];
+    columns.splice(firstIndex, 1);
+    columns.splice(secondIndex, 0, dragCard);
     this.forceUpdate();
+
+    this.setState({ report: swapColumns(this.state.report, firstIndex, secondIndex) });
   }
 
   render() {
     const header1res = header1(this.state.report, this.sort, this.removeColumn);
-    const cDropd = <DragableHeaders headers={header1res} moveCard={this.moveCard.bind(this)} />;
+    const cDropd = <DragableHeaders headers={header1res} moveCard={this.swapColumns} />;
     return (
       <div>
         <Menu />
