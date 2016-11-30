@@ -1,15 +1,15 @@
 import * as React from 'react';
 // import {NotificationStack} from 'react-notification';
+
 import RichTable from './RichTable/RichTable';
-
-import createReport from './model/report';
 import DragableHeaders from '../sortable-target/DragableHeaders';
-import { Report } from '../types/report';
-import { removeColumn, sort, toggleCollapsed, removeGroup, swapColumns } from './model/operations';
-
-import createHeaders from './summary/headers';
 import Menu from './Menu';
 
+import createReport from './model/report';
+import { removeColumn, sort, toggleCollapsed, removeGroup, swapColumns } from './model/operations';
+import createHeaders from './summary/headers';
+
+import { Report } from '../types/report';
 import './App.scss';
 
 interface State { report: Report }
