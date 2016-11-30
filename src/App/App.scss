@@ -11,11 +11,11 @@
 
 .group-title,
 .column-title-cell{
-    .glyphicon-remove{
+    .glyphicon{
         visibility: hidden;
     }
     &:hover{
-        .glyphicon-remove{
+        .glyphicon{
             visibility: visible;
         }
     }

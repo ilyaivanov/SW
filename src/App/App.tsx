@@ -1,10 +1,17 @@
 import * as React from 'react';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+
 import RichTable from './RichTable/RichTable';
+
+import Container from '../sortable-target/Container';
+
 import createReport from './model/report';
-import Pills from '../sortable-target/App';
+import DragableHeaders from '../sortable-target/DragableHeaders';
 import { removeColumn, sort, toggleCollapsed, removeGroup } from './sumary/operations';
 
 import { Group, Report, Sorting } from '../types/report';
+import Menu from './Menu';
 
 import './App.scss';
 
@@ -33,52 +40,42 @@ export default class App extends React.Component<{}, State>{
   removeColumn = (index) =>
     this.setState({ report: removeColumn(this.state.report, index) });
 
+
+  //extract moveCard to App.tsx
+  moveCard(dragIndex, hoverIndex) {
+    const { columns} = this.state.report;
+    const dragCard = columns[dragIndex];
+    this.state.report.columns.splice(dragIndex, 1);
+    this.state.report.columns.splice(hoverIndex, 0, dragCard);
+    this.forceUpdate();
+  }
+
   render() {
+    const header1res = header1(this.state.report, this.sort, this.removeColumn);
+    const cDropd = <DragableHeaders headers={header1res} moveCard={this.moveCard.bind(this)} />;
     return (
       <div>
-        {navBar()}
-        <div className="page-title">
-          <h2>Summary</h2>
-          <Pills/>
-        </div>
+        <Menu />
         <RichTable
           report={this.state.report}
-          headers={header(this.state.report, this.sort, this.removeColumn)}
+          headers={cDropd}
           onGroupCollapse={this.toggle}
           removeGroup={this.remove} />
       </div>
     )
   }
 }
-function header(report: Report, sorter: Function, removeColumn: Function) {
+function header1(report: Report, sorter: Function, removeColumn: Function) {
   const sortingIndicator = (sorter: Sorting) =>
     sorter == Sorting.Asc ? <span className="glyphicon glyphicon-chevron-up"></span> :
       sorter == Sorting.Desc ? <span className="glyphicon glyphicon-chevron-down"></span> :
         null;
 
-  const width = (100 / report.columns.length) + '%';
-  return (<tr>
-    {report.columns.map((c, i) => <th className="text-center column-title-cell" style={{ width }}
-      key={i}>
-      <span className="column-title" onClick={() => sorter(i)}>{c.name}</span>
-      {sortingIndicator(c.sorted)}
-      {(i != 0 && i != report.columns.length - 1) ? <span className="glyphicon glyphicon-remove text-danger" onClick={() => removeColumn(i)}></span> : null}
-    </th>)}
-  </tr>);
+  return report.columns.map((c, i) => <span
+    key={i}>
+    <span className="column-title" onClick={() => sorter(i)}>{c.name}</span>
+    {sortingIndicator(c.sorted)}
+    {(i != 0 && i != report.columns.length - 1) ? <span className="glyphicon glyphicon-remove text-danger" onClick={() => removeColumn(i)}></span> : null}
+  </span>);
 }
-function navBar() {
-  return (<nav className="navbar navbar-default">
-    <div className="container-fluid">
-      <div className="navbar-header">
-        <a className="navbar-brand" href="#">SW Prototype</a>
-      </div>
 
-      <div className="collapse navbar-collapse">
-        <ul className="nav navbar-nav">
-          <li ><a href="JavaScript:;" style={{cursor: 'not-allowed'}}>Details</a></li>
-          <li className="active"><a href="#">Summary</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>);
-}

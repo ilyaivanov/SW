@@ -14,14 +14,14 @@ const handleStyle = {
 	paddingLeft: '10px',
 	cursor: 'ew-resize'
 };
-class Card extends React.Component<{}, {}> {
+class Header extends React.Component<{ subnode: React.ReactNode, width: any }, {}> {
 
 	render() {
-		const { card, isDragging, connectDragSource, connectDropTarget, connectDragPreview } = this.props;
+		const { card, isDragging, connectDragSource, connectDropTarget, connectDragPreview, width } = this.props;
 		const opacity = isDragging ? 0.2 : 1;
 		return connectDragPreview(connectDropTarget(
-			<th style={_.assign({}, { opacity })}>
-				{card.text}
+			<th className="text-center column-title-cell" style={_.assign({}, { opacity }, { width })}>
+				{this.props.subnode}
 				{connectDragSource(<i style={handleStyle} className="glyphicon glyphicon-menu-hamburger"></i>)}
 			</th>
 		));
@@ -39,7 +39,9 @@ const cardSource = {
 	},
 
 	endDrag(props, monitor) {
-		console.log('end drag')
+		const dragIndex = monitor.getItem().index;
+		const hoverIndex = props.index;
+		console.log(dragIndex, hoverIndex);
 		// const item = monitor.getItem();
 		// const dropResult = monitor.getDropResult();
 
@@ -55,7 +57,7 @@ const cardTarget = {
 		const dragIndex = monitor.getItem().index;
 		const hoverIndex = props.index;
 		const sourceListId = monitor.getItem().listId;
-
+		console.log(dragIndex, hoverIndex);
 		// Don't replace items with themselves
 		if (dragIndex === hoverIndex) {
 			return;
@@ -109,4 +111,4 @@ export default _.flow(
 		connectDragPreview: connect.dragPreview(),
 		isDragging: monitor.isDragging()
 	}))
-)(Card);
+)(Header);
