@@ -3,27 +3,20 @@ import { findDOMNode } from 'react-dom';
 import { DragSource, DropTarget } from 'react-dnd';
 import * as _ from 'lodash';
 
-const style = {
-	border: '1px dashed gray',
-	padding: '0.5rem 1rem',
-	margin: '.5rem',
-	backgroundColor: 'white',
-	// cursor: 'ew-resize'
-};
 const handleStyle = {
 	paddingLeft: '10px',
 	cursor: 'ew-resize'
 };
-class Header extends React.Component<{ subnode: React.ReactNode, width: any }, {}> {
-
+class Header extends React.Component<any, {}> {
 	render() {
-		const { card, isDragging, connectDragSource, connectDropTarget, connectDragPreview, width } = this.props;
+		const { isDraggable, isDragging, connectDragSource, connectDropTarget, connectDragPreview, width } = this.props;
 		//isDragging is not working properly, will fix in the future
 		const opacity = isDragging ? 1 : 1;
+
 		return connectDragPreview(connectDropTarget(
 			<th className="text-center column-title-cell" style={_.assign({}, { opacity }, { width })}>
 				{this.props.subnode}
-				{connectDragSource(<i style={handleStyle} className="glyphicon glyphicon-menu-hamburger"></i>)}
+				{isDraggable ? connectDragSource(<i style={handleStyle} className="glyphicon glyphicon-menu-hamburger"></i>) : null}
 			</th>
 		));
 	}
@@ -40,14 +33,7 @@ const cardSource = {
 	},
 
 	endDrag(props, monitor) {
-		const dragIndex = monitor.getItem().index;
-		const hoverIndex = props.index;
-		// const item = monitor.getItem();
-		// const dropResult = monitor.getDropResult();
-
-		// if (dropResult && dropResult.listId !== item.listId) {
-		// 	props.removeCard(item.index);
-		// }
+		//not used 
 	}
 };
 
@@ -58,7 +44,7 @@ const cardTarget = {
 		const hoverIndex = props.index;
 		const sourceListId = monitor.getItem().listId;
 		// Don't replace items with themselves
-		if (dragIndex === hoverIndex) {
+		if (dragIndex === hoverIndex || hoverIndex === 0) {
 			return;
 		}
 

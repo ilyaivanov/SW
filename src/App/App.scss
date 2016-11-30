@@ -11,11 +11,13 @@
 
 .group-title,
 .column-title-cell{
-    .glyphicon{
+    .glyphicon-remove,
+    .glyphicon-menu-hamburger{
         visibility: hidden;
     }
     &:hover{
-        .glyphicon{
+        .glyphicon-remove,
+        .glyphicon-menu-hamburger{
             visibility: visible;
         }
     }
@@ -31,20 +33,18 @@
     }
 }
 
-
 .glyphicon{
     cursor: pointer;
 }
-
 
 .glyphicon-remove{
     padding-left: 5px;
 }
 
-
 .wrapper {
   position: relative;
 }
+
 .firstCell {
   right: 50%;
   position: absolute;

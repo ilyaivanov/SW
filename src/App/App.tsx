@@ -4,11 +4,9 @@ import HTML5Backend from 'react-dnd-html5-backend';
 
 import RichTable from './RichTable/RichTable';
 
-import Container from '../sortable-target/Container';
-
 import createReport from './model/report';
 import DragableHeaders from '../sortable-target/DragableHeaders';
-import { removeColumn, sort, toggleCollapsed, removeGroup, swapColumns } from './sumary/operations';
+import { removeColumn, sort, toggleCollapsed, removeGroup, swapColumns } from './model/operations';
 
 import { Group, Report, Sorting } from '../types/report';
 import Menu from './Menu';
@@ -40,18 +38,11 @@ export default class App extends React.Component<{}, State>{
   removeColumn = (index) =>
     this.setState({ report: removeColumn(this.state.report, index) });
 
-  swapColumns = (firstIndex, secondIndex) => {
-    const columns = this.state.report.columns;
-    const dragCard = columns[firstIndex];
-    columns.splice(firstIndex, 1);
-    columns.splice(secondIndex, 0, dragCard);
-    this.forceUpdate();
-
+  swapColumns = (firstIndex, secondIndex) => 
     this.setState({ report: swapColumns(this.state.report, firstIndex, secondIndex) });
-  }
 
   render() {
-    const header1res = header1(this.state.report, this.sort, this.removeColumn);
+    const header1res = createHeadersViews(this.state.report, this.sort, this.removeColumn);
     const cDropd = <DragableHeaders headers={header1res} moveCard={this.swapColumns} />;
     return (
       <div>
@@ -65,7 +56,10 @@ export default class App extends React.Component<{}, State>{
     )
   }
 }
-function header1(report: Report, sorter: Function, removeColumn: Function) {
+
+//if you want to swap remove icon and drag handle
+// you will need to return custom objects here and render them accordingly at Header.tsx
+function createHeadersViews(report: Report, sorter: Function, removeColumn: Function) {
   const sortingIndicator = (sorter: Sorting) =>
     sorter == Sorting.Asc ? <span className="glyphicon glyphicon-chevron-up"></span> :
       sorter == Sorting.Desc ? <span className="glyphicon glyphicon-chevron-down"></span> :
