@@ -7,7 +7,7 @@ import createGroup from './Group';
 type GroupAction = (group: Group) => void;
 
 export default (props: { report: Report, headers:any, onGroupCollapse: GroupAction, removeGroup: GroupAction }) => (
-    <table className="table table-condensed">
+    <table className="table table-bordered table-condensed table-striped">
         <thead>
             {props.headers}
         </thead>

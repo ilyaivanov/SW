@@ -10,6 +10,7 @@ class DragableHeaders extends React.Component<any, {}> {
     render() {
         var headersInfo = this.props.headers.map((element, id) => ({ element, id }));
         const width = (100 / headersInfo.length) + '%';
+
         return <tr>
             {headersInfo.map((card, i) => {
                 return (
@@ -26,5 +27,6 @@ class DragableHeaders extends React.Component<any, {}> {
         </tr>;
     }
 }
+
 
 export default DragDropContext(HTML5Backend)(DragableHeaders);

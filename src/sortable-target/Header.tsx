@@ -7,14 +7,16 @@ const handleStyle = {
 	paddingLeft: '10px',
 	cursor: 'ew-resize'
 };
+
+
 class Header extends React.Component<any, {}> {
 	render() {
 		const { isDraggable, isDragging, connectDragSource, connectDropTarget, connectDragPreview, width } = this.props;
 		//isDragging is not working properly, will fix in the future
 		const opacity = isDragging ? 1 : 1;
-
+		
 		return connectDragPreview(connectDropTarget(
-			<th className="text-center column-title-cell" style={_.assign({}, { opacity }, { width })}>
+			<th className="text-center column-title-cell" style={{ width, paddingLeft: '20px' }}>
 				{this.props.subnode}
 				{isDraggable ? connectDragSource(<i style={handleStyle} className="glyphicon glyphicon-menu-hamburger"></i>) : null}
 			</th>
